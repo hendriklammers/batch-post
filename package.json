@@ -4,6 +4,7 @@
   "description": "Send data data to an API in batch",
   "license": "MIT",
   "repository": "hendriklammers/batch-post",
+  "bin": "cli.js",
   "author": {
     "name": "Hendrik Lammers",
     "email": "lammers@gmail.com",
@@ -14,11 +15,14 @@
   },
   "scripts": {},
   "files": [
-    "index.js"
+    "index.js",
+    "cli.js"
   ],
   "keywords": [
     ""
   ],
-  "dependencies": {},
+  "dependencies": {
+    "chalk": "^1.0.0"
+  },
   "devDependencies": {}
 }
