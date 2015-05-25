@@ -1,6 +1,6 @@
 # batch-post
 
-> Send data to an API in batch
+> Post an array of objects to an API
 
 
 ## Install
