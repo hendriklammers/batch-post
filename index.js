@@ -5,23 +5,14 @@ var http = require('http'),
     url = require('url'),
     counter = 0,
     postData,
-    apiUrl;
+    postOptions;
 
 function post() {
     var query = querystring.stringify(postData[counter]);
 
-    var options = {
-        host: 'localhost',
-        path: '/api/object',
-        port: 3000,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': query.length
-        }
-    };
+    postOptions.headers['Content-Length'] = query.length;
 
-    var postRequest = http.request(options, function(res) {
+    var postRequest = http.request(postOptions, function(res) {
         res.setEncoding('utf8');
 
         res.on('data', function (chunk) {
@@ -41,9 +32,20 @@ function post() {
     postRequest.end();
 }
 
-module.exports = function(data, url) {
+module.exports = function(data, apiUrl) {
+    var parsedUrl = url.parse(apiUrl);
+
     postData = data;
-    apiUrl = url;
+
+    postOptions = {
+        host: parsedUrl.hostname,
+        path: parsedUrl.pathname,
+        port: parsedUrl.port,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    };
 
     post();
 };
