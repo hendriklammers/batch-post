@@ -7,6 +7,33 @@ var http = require('http'),
     postData,
     postOptions;
 
+/**
+ * Initializes options and starts the post loop
+ *
+ * @param {Object} data JSON data to send
+ * @param {String} apiUrl API url to send POST request
+ */
+function batchPost(data, apiUrl) {
+    var parsedUrl = url.parse(apiUrl);
+
+    postData = data;
+
+    postOptions = {
+        host: parsedUrl.hostname,
+        path: parsedUrl.pathname,
+        port: parsedUrl.port,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    };
+
+    post();
+}
+
+/**
+ * Makes the actual post requests
+ */
 function post() {
     var query = querystring.stringify(postData[counter]);
 
@@ -32,20 +59,4 @@ function post() {
     postRequest.end();
 }
 
-module.exports = function(data, apiUrl) {
-    var parsedUrl = url.parse(apiUrl);
-
-    postData = data;
-
-    postOptions = {
-        host: parsedUrl.hostname,
-        path: parsedUrl.pathname,
-        port: parsedUrl.port,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    };
-
-    post();
-};
+module.exports = batchPost;
